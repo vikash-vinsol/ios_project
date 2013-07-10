@@ -54,7 +54,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:   (NSString *)title atIndex:(NSInteger)index
 {
-    return [indexArray indexOfObject:title];
+    return [finalArray indexOfObject:title];
 }
 
 - (void)didReceiveMemoryWarning
@@ -145,7 +145,8 @@
     
     if (cell == nil)
     {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]initWithFrame:CGRectZero];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+
     }
     
     
