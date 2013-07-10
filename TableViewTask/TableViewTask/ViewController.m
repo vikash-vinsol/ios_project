@@ -54,6 +54,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:   (NSString *)title atIndex:(NSInteger)index
 {
+    NSLog(@"%i",[finalArray indexOfObject:title]);
     return [finalArray indexOfObject:title];
 }
 
