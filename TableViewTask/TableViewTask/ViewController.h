@@ -11,6 +11,7 @@
 @interface ViewController : UIViewController
 {
     IBOutlet UITableView *tabView;
+    IBOutlet UIButton *addButton;
     UITextField *textField;
     NSMutableArray *initArr,*finalArray,*PsudoArray,*indexArray;
     NSMutableDictionary *dictionary;

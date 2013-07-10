@@ -34,6 +34,7 @@
     if (tabView.editing)
     {
         tabView.editing = !tabView.editing;
+        
     }
 }
 
@@ -51,6 +52,11 @@
     return indexArray;
 }
 
+- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:   (NSString *)title atIndex:(NSInteger)index
+{
+    return [indexArray indexOfObject:title];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -59,7 +65,7 @@
 
 -(IBAction)edit:(id)sender
 {
-      tabView.editing = !tabView.editing;
+    [tabView setEditing:!tabView.editing animated:YES];
     
 }
 
@@ -105,7 +111,6 @@
         if([arrs count]>0)
             [dictionary setObject:arrs forKey:var];
     }
-    NSLog(@"%@",dictionary);
    NSLog(@"%@",finalArray);
     [tabView reloadData];
 }
@@ -113,9 +118,10 @@
 {
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
-        NSLog(@"%@",[[dictionary objectForKey:[finalArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row]);
+        
         [initArr removeObject:[[dictionary objectForKey:[finalArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row]];
         [[dictionary objectForKey:[finalArray objectAtIndex:indexPath.section]] removeObjectAtIndex:indexPath.row];
+        
         finalArray= [[NSMutableArray alloc] init];
         for(NSString *var in indexArray)
         {
@@ -128,11 +134,8 @@
                 }
             }
         }
-
         [tableView reloadData];
     }
-    
-  
     
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -140,25 +143,19 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-   cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    if (cell == nil)
+    {
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]initWithFrame:CGRectZero];
+    }
     
-    UILabel *name = [[UILabel alloc]initWithFrame:CGRectMake(100,10,200,30)];
-    name.text = [[dictionary objectForKey:[finalArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
-    [cell addSubview:name];
     
-//    UIImageView *subView = [[UIImageView alloc]init];
-//    subView.frame = CGRectMake(40, 8, 30, 30);
-//    subView.image= [UIImage imageNamed:@"images.jpg"];
-//    [name setBackgroundColor:[UIColor clearColor]];                          // Can Also use this method to add image in table view.
-//    
-//    [cell addSubview:subView];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
+    cell.textLabel.text = [[dictionary objectForKey:[finalArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
    
+    UIImage* theImage = [UIImage imageNamed:@"images.jpg"];
     
-    NSString *path = [[NSBundle mainBundle] pathForResource:[dictionary objectForKey:@"images.jpg"] ofType:@"jpg"];
-    UIImage *theImage = [UIImage imageWithContentsOfFile:path];
     cell.imageView.image = theImage;
-    [name setBackgroundColor:[UIColor clearColor]];
-    
     return cell;
 }
 
@@ -167,7 +164,6 @@
     NSString *name = [[dictionary objectForKey:[finalArray objectAtIndex:sourceIndexPath.section]] objectAtIndex:sourceIndexPath.row];
     [[dictionary objectForKey:[finalArray objectAtIndex:sourceIndexPath.section]] removeObjectAtIndex:sourceIndexPath.row];
     [[dictionary objectForKey:[finalArray objectAtIndex:destinationIndexPath.section]] insertObject:name atIndex:destinationIndexPath.row];
-    
 }
 
 @end
