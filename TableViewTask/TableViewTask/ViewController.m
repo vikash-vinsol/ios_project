@@ -1,11 +1,3 @@
-//
-//  ViewController.m
-//  TableViewTask
-//
-//  Created by Vikash Soni on 04/07/13.
-//  Copyright (c) 2013 Vikash Soni. All rights reserved.
-//
-
 #import "ViewController.h"
 
 @interface ViewController ()
@@ -25,8 +17,11 @@
     
     initArr = [[NSMutableArray alloc] init];
     indexArray =[[NSMutableArray alloc] init];
+    
     for(char a = 'A'; a <= 'Z'; a++)
+    {
         [indexArray addObject:[NSString stringWithFormat:@"%c", a]];
+    }
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -34,7 +29,6 @@
     if (tabView.editing)
     {
         tabView.editing = !tabView.editing;
-        
     }
 }
 
@@ -45,14 +39,13 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     return [finalArray objectAtIndex:section];
-    
 }
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
 {
     return indexArray;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:   (NSString *)title atIndex:(NSInteger)index
+- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
 {
     NSLog(@"%i",[finalArray indexOfObject:title]);
     return [finalArray indexOfObject:title];
@@ -74,17 +67,15 @@
 {
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Enter Title For New Cell" message:@"\n \n" delegate:self cancelButtonTitle:nil otherButtonTitles:@"ADD", nil];
     
-    textField = [[UITextField alloc]initWithFrame:CGRectMake(50, 50, 190, 28)];
+    textField = [[UITextField alloc]initWithFrame:CGRectMake(50, 50, 190, 30)];
     textField.borderStyle = UITextBorderStyleRoundedRect;
     [alert addSubview:textField];
     [alert show];
     [textField becomeFirstResponder];
 }
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    
-    return [[dictionary objectForKey:[finalArray objectAtIndex:section]] count];
+        return [[dictionary objectForKey:[finalArray objectAtIndex:section]] count];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -112,7 +103,7 @@
         if([arrs count]>0)
             [dictionary setObject:arrs forKey:var];
     }
-   NSLog(@"%@",finalArray);
+    NSLog(@"%@",finalArray);
     [tabView reloadData];
 }
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -139,8 +130,9 @@
     }
     
 }
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier = @"Cell";
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSString *CellIdentifier = @"Cell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
@@ -149,8 +141,6 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
 
     }
-    
-    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
     cell.textLabel.text = [[dictionary objectForKey:[finalArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
@@ -160,12 +150,10 @@
     cell.imageView.image = theImage;
     return cell;
 }
-
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
 {
     NSString *name = [[dictionary objectForKey:[finalArray objectAtIndex:sourceIndexPath.section]] objectAtIndex:sourceIndexPath.row];
     [[dictionary objectForKey:[finalArray objectAtIndex:sourceIndexPath.section]] removeObjectAtIndex:sourceIndexPath.row];
     [[dictionary objectForKey:[finalArray objectAtIndex:destinationIndexPath.section]] insertObject:name atIndex:destinationIndexPath.row];
 }
-
 @end
